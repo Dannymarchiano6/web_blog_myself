@@ -1,0 +1,42 @@
+---
+import { getCollection } from 'astro:content';
+import BlogCard from '../../components/BlogCard.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
+
+<BaseLayout
+  title="Blog — Danny Marchiano"
+  description="Semua tulisan tentang web, desain, dan proses kreatif dari Danny Marchiano."
+>
+  <section class="mx-auto max-w-6xl px-5 py-14 sm:px-8 sm:py-20">
+    <div class="mb-10 max-w-2xl">
+      <a
+        href="/"
+        class="text-sm font-medium text-stone-500 transition hover:text-indigo-700 dark:text-stone-400 dark:hover:text-indigo-400"
+      >
+        ← Beranda
+      </a>
+      <p class="mt-8 text-sm font-medium text-indigo-700 dark:text-indigo-400">Arsip tulisan</p>
+      <h1 class="mt-2 text-4xl font-semibold tracking-tight sm:text-5xl">Blog</h1>
+      <p class="mt-4 text-base leading-7 text-stone-600 dark:text-stone-300">
+        Semua catatan tentang hal-hal yang sedang saya pelajari, bangun, dan pikirkan.
+      </p>
+    </div>
+
+    {
+      posts.length > 0 ? (
+        <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post) => <BlogCard post={post} />)}
+        </div>
+      ) : (
+        <p class="rounded-2xl border border-dashed border-stone-300 p-8 text-stone-600 dark:border-stone-700 dark:text-stone-300">
+          Belum ada artikel. Tambahkan file Markdown ke <code>src/content/blog/</code>.
+        </p>
+      )
+    }
+  </section>
+</BaseLayout>

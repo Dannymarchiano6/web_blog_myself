@@ -1,0 +1,52 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const date = post.data.pubDate.toLocaleDateString('id-ID', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+<article
+  class="group flex h-full flex-col overflow-hidden rounded-2xl border border-stone-200 bg-white transition duration-200 hover:-translate-y-1 hover:border-stone-300 hover:shadow-lg hover:shadow-stone-200/50 dark:border-stone-800 dark:bg-stone-900 dark:hover:border-stone-700 dark:hover:shadow-black/20"
+>
+  <a href={`/blog/${post.id}/`} class="block overflow-hidden" aria-label={`Baca ${post.data.title}`}>
+    <img
+      src={post.data.image}
+      alt=""
+      loading="lazy"
+      class="aspect-[16/10] w-full object-cover transition duration-300 group-hover:scale-[1.03]"
+    />
+  </a>
+  <div class="flex flex-1 flex-col p-5 sm:p-6">
+    <div class="mb-3 flex flex-wrap items-center gap-2 text-xs text-stone-500 dark:text-stone-400">
+      <time datetime={post.data.pubDate.toISOString()}>{date}</time>
+      {post.data.tags.length > 0 && <span aria-hidden="true">·</span>}
+      {post.data.tags[0] && <span>{post.data.tags[0]}</span>}
+    </div>
+    <h3 class="text-lg font-semibold tracking-tight text-stone-950 dark:text-stone-50">
+      <a
+        href={`/blog/${post.id}/`}
+        class="transition group-hover:text-indigo-700 dark:group-hover:text-indigo-400"
+      >
+        {post.data.title}
+      </a>
+    </h3>
+    <p class="mt-2 flex-1 text-sm leading-6 text-stone-600 dark:text-stone-300">
+      {post.data.description}
+    </p>
+    <a
+      href={`/blog/${post.id}/`}
+      class="mt-5 inline-flex w-fit items-center gap-2 text-sm font-medium text-indigo-700 dark:text-indigo-400"
+      aria-label={`Baca artikel ${post.data.title}`}
+    >
+      Baca artikel <span aria-hidden="true">→</span>
+    </a>
+  </div>
+</article>

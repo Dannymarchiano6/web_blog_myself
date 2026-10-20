@@ -1,0 +1,80 @@
+<header class="border-b border-stone-200/80 bg-white/80 dark:border-stone-800 dark:bg-stone-950/80">
+  <nav
+    class="mx-auto flex max-w-6xl items-center justify-between px-5 py-5 sm:px-8"
+    aria-label="Navigasi utama"
+  >
+    <a
+      href="/"
+      class="text-base font-semibold tracking-tight text-stone-950 dark:text-stone-50"
+      aria-label="Danny Marchiano, beranda"
+    >
+      danny<span class="text-indigo-600 dark:text-indigo-400">.</span>
+    </a>
+
+    <div class="flex items-center gap-5 sm:gap-8">
+      <a
+        href="/blog"
+        class="text-sm font-medium text-stone-600 transition hover:text-indigo-600 dark:text-stone-300 dark:hover:text-indigo-400"
+      >
+        Blog
+      </a>
+      <button
+        id="theme-toggle"
+        type="button"
+        class="inline-flex size-10 items-center justify-center rounded-full border border-stone-200 text-stone-600 transition hover:border-stone-300 hover:bg-stone-100 dark:border-stone-700 dark:text-stone-300 dark:hover:bg-stone-800"
+        aria-label="Aktifkan mode gelap"
+        title="Ganti tema"
+      >
+        <svg
+          class="sun-icon size-5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="4"></circle>
+          <path
+            stroke-linecap="round"
+            d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"
+          ></path>
+        </svg>
+        <svg
+          class="moon-icon hidden size-5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M20.2 15.1A8.5 8.5 0 0 1 8.9 3.8 8.5 8.5 0 1 0 20.2 15.1Z"
+          ></path>
+        </svg>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<script>
+  const themeToggle = document.querySelector<HTMLButtonElement>('#theme-toggle');
+
+  const syncThemeControl = (isDark: boolean) => {
+    themeToggle?.setAttribute(
+      'aria-label',
+      isDark ? 'Aktifkan mode terang' : 'Aktifkan mode gelap',
+    );
+    themeToggle?.querySelector('.sun-icon')?.classList.toggle('hidden', isDark);
+    themeToggle?.querySelector('.moon-icon')?.classList.toggle('hidden', !isDark);
+  };
+
+  syncThemeControl(document.documentElement.classList.contains('dark'));
+
+  themeToggle?.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.toggle('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    syncThemeControl(isDark);
+  });
+</script>
